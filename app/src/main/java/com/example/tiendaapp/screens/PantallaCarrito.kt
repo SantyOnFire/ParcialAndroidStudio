@@ -31,12 +31,13 @@ fun PantallaCarrito(
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("Carrito de Compras") },
+                title = { Text("Carrito de Compras", style = MaterialTheme.typography.titleLarge) },
                 navigationIcon = {
                     IconButton(onClick = onNavigateBack) {
                         Icon(Icons.Default.ArrowBack, contentDescription = "Volver")
                     }
-                }
+                },
+                colors = TopAppBarDefaults.mediumTopAppBarColors(containerColor = MaterialTheme.colorScheme.primary)
             )
         }
     ) { paddingValues ->
@@ -46,7 +47,7 @@ fun PantallaCarrito(
                 .padding(paddingValues)
         ) {
             if (viewModel.productosEnCarrito.isEmpty()) {
-                // Carrito vacío
+
                 Box(
                     modifier = Modifier.fillMaxSize(),
                     contentAlignment = Alignment.Center
@@ -58,7 +59,7 @@ fun PantallaCarrito(
                             imageVector = Icons.Default.ShoppingCart,
                             contentDescription = null,
                             modifier = Modifier.size(64.dp),
-                            tint = MaterialTheme.colorScheme.tertiary
+                            tint = MaterialTheme.colorScheme.secondary
                         )
                         Spacer(modifier = Modifier.height(16.dp))
                         Text(
@@ -73,12 +74,15 @@ fun PantallaCarrito(
                     modifier = Modifier
                         .weight(1f)
                         .fillMaxWidth()
+                        .padding(horizontal = 16.dp)
                 ) {
                     items(viewModel.productosEnCarrito) { producto ->
                         Card(
                             modifier = Modifier
                                 .fillMaxWidth()
-                                .padding(8.dp)
+                                .padding(8.dp),
+                            shape = RoundedCornerShape(12.dp),
+                            elevation = CardDefaults.elevatedCardElevation(defaultElevation = 4.dp)
                         ) {
                             Row(
                                 modifier = Modifier
@@ -86,30 +90,28 @@ fun PantallaCarrito(
                                     .padding(8.dp),
                                 verticalAlignment = Alignment.CenterVertically
                             ) {
-                                // Imagen del producto
                                 AsyncImage(
                                     model = producto.imagenUrl,
                                     contentDescription = producto.nombre,
                                     contentScale = ContentScale.Crop,
                                     modifier = Modifier
                                         .size(60.dp)
-                                        .clip(RoundedCornerShape(4.dp)),
+                                        .clip(RoundedCornerShape(8.dp)),
                                     error = painterResource(id = R.drawable.ic_broken_image)
                                 )
-
                                 Spacer(modifier = Modifier.width(16.dp))
-
-                                // Información del producto
                                 Column(
                                     modifier = Modifier.weight(1f)
                                 ) {
                                     Text(
                                         text = producto.nombre,
-                                        style = MaterialTheme.typography.titleMedium
+                                        style = MaterialTheme.typography.bodyLarge,
+                                        fontWeight = FontWeight.Bold
                                     )
                                     Text(
                                         text = "$${String.format("%.2f", producto.precio)}",
-                                        style = MaterialTheme.typography.bodyMedium
+                                        style = MaterialTheme.typography.bodyMedium,
+                                        color = MaterialTheme.colorScheme.secondary
                                     )
                                 }
                             }
@@ -117,11 +119,12 @@ fun PantallaCarrito(
                     }
                 }
 
-                // Resumen y botón finalizar compra
                 Card(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(8.dp)
+                        .padding(8.dp),
+                    shape = RoundedCornerShape(12.dp),
+                    elevation = CardDefaults.elevatedCardElevation(defaultElevation = 8.dp)
                 ) {
                     Column(
                         modifier = Modifier.padding(16.dp)
@@ -132,21 +135,23 @@ fun PantallaCarrito(
                         ) {
                             Text(
                                 text = "Total a pagar:",
-                                style = MaterialTheme.typography.titleLarge
+                                style = MaterialTheme.typography.titleLarge,
+                                fontWeight = FontWeight.Bold
                             )
                             Text(
                                 text = "$${String.format("%.2f", viewModel.totalCarrito)}",
                                 style = MaterialTheme.typography.titleLarge.copy(
-                                    fontWeight = FontWeight.Bold
+                                    fontWeight = FontWeight.Bold,
+                                    color = MaterialTheme.colorScheme.primary
                                 )
                             )
                         }
-
                         Spacer(modifier = Modifier.height(16.dp))
-
                         Button(
                             onClick = { mostrarConfirmacion = true },
-                            modifier = Modifier.fillMaxWidth()
+                            modifier = Modifier.fillMaxWidth(),
+                            shape = RoundedCornerShape(8.dp),
+                            colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary)
                         ) {
                             Text("Finalizar Compra")
                         }
@@ -165,14 +170,16 @@ fun PantallaCarrito(
                         onClick = {
                             viewModel.finalizarCompra()
                             mostrarConfirmacion = false
-                        }
+                        },
+                        shape = RoundedCornerShape(8.dp)
                     ) {
                         Text("Confirmar")
                     }
                 },
                 dismissButton = {
                     Button(
-                        onClick = { mostrarConfirmacion = false }
+                        onClick = { mostrarConfirmacion = false },
+                        shape = RoundedCornerShape(8.dp)
                     ) {
                         Text("Cancelar")
                     }

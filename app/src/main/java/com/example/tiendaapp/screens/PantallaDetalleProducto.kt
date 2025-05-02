@@ -1,11 +1,11 @@
 package com.example.tiendaapp.screens
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material.icons.filled.BrokenImage
-import androidx.compose.material.icons.filled.Error
 import androidx.compose.material.icons.filled.ShoppingCart
+import androidx.compose.material.icons.filled.Warning
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -13,12 +13,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import coil.compose.AsyncImage
 import coil.compose.SubcomposeAsyncImage
 import coil.request.ImageRequest
+import com.example.tiendaapp.R
 import com.example.tiendaapp.viewmodel.CarritoViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -54,7 +55,6 @@ fun PantallaDetalleProducto(
                         .padding(16.dp),
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
-                    // Imagen del producto
                     Box(
                         modifier = Modifier
                             .fillMaxWidth()
@@ -81,10 +81,9 @@ fun PantallaDetalleProducto(
                                     horizontalAlignment = Alignment.CenterHorizontally,
                                     verticalArrangement = Arrangement.Center
                                 ) {
-                                    Icon(
-                                        imageVector = Icons.Default.BrokenImage,
+                                    Image(
+                                        painter = painterResource(id = R.drawable.ic_broken_image),
                                         contentDescription = "Imagen no disponible",
-                                        tint = Color.Gray,
                                         modifier = Modifier.size(50.dp)
                                     )
                                     Text("Imagen no disponible")
@@ -96,7 +95,6 @@ fun PantallaDetalleProducto(
 
                     Spacer(modifier = Modifier.height(16.dp))
 
-                    // Información del producto
                     Text(
                         text = producto.nombre,
                         style = MaterialTheme.typography.headlineMedium
@@ -139,7 +137,7 @@ fun PantallaDetalleProducto(
                     verticalArrangement = Arrangement.Center
                 ) {
                     Icon(
-                        imageVector = Icons.Default.Error,
+                        imageVector = Icons.Default.Warning,
                         contentDescription = "Error",
                         tint = Color.Red,
                         modifier = Modifier.size(64.dp)

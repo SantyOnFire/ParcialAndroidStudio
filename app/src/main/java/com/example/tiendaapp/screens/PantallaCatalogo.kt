@@ -34,19 +34,27 @@ fun PantallaCatalogo(
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("Catálogo de Productos") },
+                title = { Text("Catálogo de Productos", color = Color.White) },
+                colors = TopAppBarDefaults.mediumTopAppBarColors(
+                    containerColor = Color(0xFF6200EE)
+                ),
                 actions = {
                     IconButton(onClick = onNavigateToCarrito) {
                         Icon(
                             imageVector = Icons.Default.ShoppingCart,
-                            contentDescription = "Ir al carrito"
+                            contentDescription = "Ir al carrito",
+                            tint = Color.White
                         )
                     }
                 }
             )
         },
         floatingActionButton = {
-            FloatingActionButton(onClick = onNavigateToAgregarProducto) {
+            FloatingActionButton(
+                onClick = onNavigateToAgregarProducto,
+                containerColor = Color(0xFFE91E63),
+                contentColor = Color.White
+            ) {
                 Icon(Icons.Default.Add, contentDescription = "Agregar producto")
             }
         }
@@ -54,15 +62,14 @@ fun PantallaCatalogo(
         Column(
             modifier = Modifier
                 .fillMaxSize()
+                .background(Color(0xFFF9F9F9))
                 .padding(paddingValues)
         ) {
-
             Text(
                 text = "Total del carrito: $${String.format("%.2f", viewModel.totalCarrito)}",
                 style = MaterialTheme.typography.headlineSmall,
                 modifier = Modifier.padding(16.dp)
             )
-
 
             if (viewModel.productos.isEmpty()) {
                 Box(
@@ -94,7 +101,10 @@ fun ProductoItem(producto: Producto, onClick: () -> Unit) {
         modifier = Modifier
             .fillMaxWidth()
             .padding(8.dp)
-            .clickable(onClick = onClick)
+            .clickable(onClick = onClick),
+        shape = MaterialTheme.shapes.medium,
+        elevation = CardDefaults.elevatedCardElevation(defaultElevation = 8.dp),
+        colors = CardDefaults.cardColors(containerColor = Color(0xFFFFF8E1))
     ) {
         Row(
             modifier = Modifier
@@ -102,11 +112,10 @@ fun ProductoItem(producto: Producto, onClick: () -> Unit) {
                 .padding(8.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            // Imagen del producto
             Box(
                 modifier = Modifier
                     .size(80.dp)
-                    .background(Color.LightGray)
+                    .background(Color.LightGray, shape = MaterialTheme.shapes.small)
             ) {
                 AsyncImage(
                     model = ImageRequest.Builder(LocalContext.current)
@@ -132,7 +141,8 @@ fun ProductoItem(producto: Producto, onClick: () -> Unit) {
                 )
                 Text(
                     text = "$${String.format("%.2f", producto.precio)}",
-                    style = MaterialTheme.typography.bodyMedium
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = Color(0xFF4CAF50)
                 )
             }
         }

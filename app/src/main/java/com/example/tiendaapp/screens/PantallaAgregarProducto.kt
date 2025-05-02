@@ -1,5 +1,6 @@
 package com.example.tiendaapp.screens
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
@@ -10,6 +11,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import androidx.compose.foundation.shape.RoundedCornerShape
 import com.example.tiendaapp.viewmodel.CarritoViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -27,28 +30,36 @@ fun PantallaAgregarProducto(
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("Agregar Producto") },
+                title = { Text("Agregar Producto", style = MaterialTheme.typography.headlineSmall, color = Color.White) },
                 navigationIcon = {
                     IconButton(onClick = onNavigateBack) {
-                        Icon(Icons.Default.ArrowBack, contentDescription = "Volver")
+                        Icon(Icons.Default.ArrowBack, contentDescription = "Volver", tint = Color.White)
                     }
-                }
+                },
+                colors = TopAppBarDefaults.mediumTopAppBarColors(
+                    containerColor = Color(0xFF6200EE)
+                )
             )
         }
     ) { paddingValues ->
         Column(
             modifier = Modifier
                 .fillMaxSize()
+                .background(Color(0xFFF9F9F9))
                 .padding(paddingValues)
                 .padding(16.dp),
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
-            // Formulario
             OutlinedTextField(
                 value = nombre,
                 onValueChange = { nombre = it },
                 label = { Text("Nombre del producto") },
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier.fillMaxWidth(),
+                singleLine = true,
+                colors = OutlinedTextFieldDefaults.colors(
+                    focusedBorderColor = Color(0xFF6200EE),
+                    cursorColor = Color(0xFF6200EE)
+                )
             )
 
             OutlinedTextField(
@@ -56,28 +67,42 @@ fun PantallaAgregarProducto(
                 onValueChange = { precioText = it },
                 label = { Text("Precio") },
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier.fillMaxWidth(),
+                singleLine = true,
+                colors = OutlinedTextFieldDefaults.colors(
+                    focusedBorderColor = Color(0xFF6200EE),
+                    cursorColor = Color(0xFF6200EE)
+                )
             )
 
             OutlinedTextField(
                 value = descripcion,
                 onValueChange = { descripcion = it },
                 label = { Text("Descripción") },
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier.fillMaxWidth(),
+                colors = OutlinedTextFieldDefaults.colors(
+                    focusedBorderColor = Color(0xFF6200EE),
+                    cursorColor = Color(0xFF6200EE)
+                )
             )
 
             OutlinedTextField(
                 value = imagenUrl,
                 onValueChange = { imagenUrl = it },
                 label = { Text("URL de la imagen") },
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier.fillMaxWidth(),
+                singleLine = true,
+                colors = OutlinedTextFieldDefaults.colors(
+                    focusedBorderColor = Color(0xFF6200EE),
+                    cursorColor = Color(0xFF6200EE)
+                )
             )
 
             if (showError) {
                 Text(
                     text = "Todos los campos son obligatorios y el precio debe ser válido",
                     color = Color.Red,
-                    modifier = Modifier.padding(top = 8.dp)
+                    style = MaterialTheme.typography.bodyMedium
                 )
             }
 
@@ -91,9 +116,11 @@ fun PantallaAgregarProducto(
                         showError = true
                     }
                 },
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier.fillMaxWidth(),
+                shape = RoundedCornerShape(12.dp),
+                colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFE91E63))
             ) {
-                Text("Guardar Producto")
+                Text("Guardar Producto", color = Color.White)
             }
         }
     }
